@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biên dịch 2 mimimi</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #2ecc71;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-top: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        
+        /* Menu lựa chọn */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        @media (max-width: 480px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .menu-btn {
+            background-color: white;
+            color: var(--primary);
+            border: 2px solid #34495e;
+            padding: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        .menu-btn:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .menu-btn.all-units {
+            grid-column: span 2;
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+        @media (max-width: 480px) {
+            .menu-btn.all-units {
+                grid-column: span 1;
+            }
+        }
+        .menu-btn.all-units:hover {
+            background-color: #2980b9;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: var(--light);
+            border-radius: 8px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: var(--secondary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .stats-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .question-box {
+            background-color: #f8f9fa;
+            border-left: 5px solid var(--secondary);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 20px;
+        }
+        .question-title {
+            font-size: 14px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .question-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus {
+            border-color: var(--secondary);
+        }
+        .btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .result-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .result-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .reminder {
+            margin-top: 8px;
+            padding: 8px;
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .summary {
+            text-align: center;
+            display: none;
+        }
+        .summary h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        .score-display {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--secondary);
+            margin: 20px 0;
+        }
+        .details-list {
+            text-align: left;
+            margin-top: 25px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .details-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        .details-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MÀN HÌNH CHỌN UNIT -->
+    <div class="container" id="menu-container">
+        <h1>Biên dịch 2 mimimi</h1>
+        <div class="subtitle">chọn Unit dưới nè</div>
+        
+        <div class="menu-grid">
+            <button class="menu-btn" onclick="startQuizByUnit(3)">Unit 3: Đối ngoại / LHQ</button>
+            <button class="menu-btn" onclick="startQuizByUnit(4)">Unit 4: Văn hóa & Nghệ thuật</button>
+            <button class="menu-btn" onclick="startQuizByUnit(5)">Unit 5: Y tế & Dịch tễ</button>
+            <button class="menu-btn" onclick="startQuizByUnit(6)">Unit 6: Phòng cháy chữa cháy</button>
+            <button class="menu-btn" onclick="startQuizByUnit(7)">Unit 7: Phòng chống ma túy</button>
+            <button class="menu-btn" onclick="startQuizByUnit(8)">Unit 8: Bình đẳng giới & Môi trường</button>
+            <button class="menu-btn all-units" onclick="startQuizByUnit('all')">Làm Đề Tổng Hợp Ngẫu Nhiên (40 Câu)</button>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH LÀM BÀI QUIZ -->
+    <div class="container" id="quiz-container" style="display: none;">
+        <h1 id="quiz-main-title">Ôn Tập Từ Vựng Biên Dịch</h1>
+        <div class="subtitle" id="quiz-sub-title">Đang làm bài...</div>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+
+        <div class="stats-top">
+            <span id="question-count">Câu hỏi: 1/10</span>
+            <span id="score-count">Đúng: 0</span>
+        </div>
+
+        <div class="question-box">
+            <div class="question-title" id="question-unit">Unit</div>
+            <div class="question-text" id="question-text">Đang tải...</div>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="answer-input" autocomplete="off" placeholder="Nhập câu trả lời bằng tiếng Anh tại đây..." autofocus>
+            <button class="btn" id="submit-btn" onclick="checkAnswer()">Kiểm tra</button>
+            <button class="btn" id="next-btn" onclick="nextQuestion()" style="display:none; background-color: var(--primary);">Câu tiếp theo</button>
+        </div>
+
+        <div id="result-message" class="result-box"></div>
+    </div>
+
+    <!-- MÀN HÌNH TỔNG KẾT KẾT QUẢ -->
+    <div class="container summary" id="summary-container">
+        <h2>Kết Quả Ôn Tập</h2>
+        <div class="subtitle" id="summary-sub-title">Bạn đã hoàn thành bài ôn tập</div>
+        <div class="score-display" id="final-score">0 / 0</div>
+        <div id="performance-comment" style="font-weight: 600; font-size: 18px; margin-bottom: 20px;"></div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button class="btn" style="background-color: var(--primary);" onclick="backToMenu()">Về Trang Chủ Chọn Unit</button>
+            <button class="btn" onclick="retryCurrentUnit()">Làm Lại Lượt Mới</button>
+        </div>
+        
+        <div class="details-list" id="details-list">
+            <h3 style="margin-bottom: 10px; position: sticky; top: 0; background: white; padding: 5px 0;">Xem lại các câu đã làm:</h3>
+        </div>
+    </div>
+
+    <script>
+        const fullVocabulary = [
+            // Unit 3
+            { vi: "Đại hội đồng Liên hợp quốc", en: ["United Nations General Assembly"], unit: 3 },
+            { vi: "Phiên họp khẩn cấp", en: ["Emergency Special session"], unit: 3 },
+            { vi: "Chủ tịch Đại hội đồng LHQ", en: ["President of the United Nations General Assembly"], unit: 3 },
+            { vi: "Tổng thư ký LHQ", en: ["UN Secretary General"], unit: 3 },
+            { vi: "Quỹ ứng phó khẩn cấp", en: ["Emergency Response Fund"], unit: 3 },
+            { vi: "Điều phối viên khủng hoảng LHQ", en: ["UN Crisis Coordinator"], unit: 3 },
+            { vi: "Luật nhân đạo quốc tế", en: ["international humanitarian law"], unit: 3 },
+            { vi: "Bày tỏ quan ngại", en: ["express concern"], unit: 3 },
+            { vi: "Sử dụng vũ lực", en: ["use of force"], unit: 3 },
+            { vi: "Việc sơ tán", en: ["evacuation"], unit: 3 },
+            // Unit 4
+            { vi: "Loại hình nghệ thuật truyền thống", en: ["Traditional art form"], unit: 4 },
+            { vi: "Hình thức giải trí hiện đại", en: ["Modern entertainment form"], unit: 4 },
+            { vi: "Bộ môn nghệ thuật dân tộc", en: ["Ethnic art form"], unit: 4 },
+            { vi: "Triển lãm thế giới EXPO 2025 Osaka", en: ["The EXPO 2025 Osaka World Exhibition"], unit: 4 },
+            { vi: "Nhà Triển lãm Việt Nam", en: ["the Vietnam Pavilion"], unit: 4 },
+            { vi: "Giá trị di sản", en: ["Heritage value"], unit: 4 },
+            { vi: "Văn học-nghệ thuật", en: ["Literature and arts"], unit: 4 },
+            { vi: "Bản sắc văn hóa dân tộc", en: ["National cultural identity"], unit: 4 },
+            { vi: "Di sản văn hóa phi vật thể", en: ["Intangible cultural heritage"], unit: 4 },
+            { vi: "Mô hình diễn xướng, sân khấu hóa", en: ["Performance and dramatization models"], unit: 4 },
+            { vi: "Dàn dựng", en: ["to stage"], unit: 4 },
+            { vi: "Giá trị cốt lõi", en: ["core value"], unit: 4 },
+            // Unit 5
+            { vi: "Bệnh viêm gan cấp tính", en: ["acute hepatitis"], unit: 5 },
+            { vi: "Bệnh viện chuyên khoa Nhi", en: ["pediatric hospitals"], unit: 5 },
+            { vi: "Tác nhân gây nhiễm", en: ["infectious agent", "causative agent"], unit: 5 },
+            { vi: "Sở Y tế TP.HCM", en: ["the Department of Health of Ho Chi Minh City"], unit: 5 },
+            { vi: "Hội chẩn", en: ["consult (with)"], unit: 5 },
+            { vi: "Bệnh viện Bệnh nhiệt đới TP.HCM", en: ["the Ho Chi Minh City Hospital for Tropical Diseases"], unit: 5 },
+            { vi: "Đơn vị Nghiên cứu Lâm sàng ĐH Oxford", en: ["the Oxford University Clinical Research Unit"], unit: 5 },
+            { vi: "Cục Y tế dự phòng", en: ["Department of Preventive Medicine"], unit: 5 },
+            { vi: "Viện Vệ sinh dịch tễ trung ương", en: ["Central Institute of Hygiene and Epidemiology"], unit: 5 },
+            { vi: "Viện Pasteur", en: ["Pasteur Institute"], unit: 5 },
+            { vi: "Viện Vệ sinh dịch tễ Tây Nguyên", en: ["Central Highlands Institute of Hygiene and Epidemiology"], unit: 5 },
+            { vi: "Đau bụng", en: ["abdominal pain"], unit: 5 },
+            { vi: "Men gan tăng cao", en: ["elevated liver enzymes"], unit: 5 },
+            { vi: "Trung tâm Phòng chống và kiểm soát dịch bệnh châu Âu", en: ["European Center for Disease Prevention and Control"], unit: 5 },
+            { vi: "Nơi lưu hành cao virus Adeno", en: ["area of high endemicity of the adenovirus"], unit: 5 },
+            { vi: "Vàng da", en: ["jaundice", "yellow discolouration of the skin"], unit: 5 },
+            // Unit 6
+            { vi: "Hiệp hội PCCC quốc gia Hoa Kỳ", en: ["U.S. National Fire Protection Association"], unit: 6 },
+            { vi: "Đoàn công tác", en: ["delegation"], unit: 6 },
+            { vi: "Viện Khoa học công nghệ xây dựng", en: ["Vietnam Institute for Building Science and Technology", "IBST"], unit: 6 },
+            { vi: "Tiêu chuẩn, quy chuẩn về PCCC", en: ["Fire safety standards"], unit: 6 },
+            { vi: "Điều phối viên quốc tế cao cấp về mạng lưới chính phủ", en: ["International Senior Liaison of Government Networks"], unit: 6 },
+            { vi: "Nghiệm thu", en: ["acceptance"], unit: 6 },
+            { vi: "Giải pháp Hệ sinh thái an toàn cháy và tính mạng", en: ["Fire and life safety ecosystem"], unit: 6 },
+            { vi: "Nhà thầu thi công", en: ["contractors"], unit: 6 },
+            { vi: "Đơn vị vận hành", en: ["building operators"], unit: 6 },
+            { vi: "Các nội dung cùng quan tâm", en: ["areas of mutual interest"], unit: 6 },
+            // Unit 7
+            { vi: "Cục CSĐT tội phạm về ma túy", en: ["Drug-related Crime Investigation Police Department"], unit: 7 },
+            { vi: "Huân chương Chiến công hạng Nhất", en: ["First Class Victory Medal"], unit: 7 },
+            { vi: "Bộ Công an", en: ["Ministry of Public Security"], unit: 7 },
+            { vi: "Ủy ban Quốc gia Phòng chống AIDS, ma túy và mại dâm", en: ["National Committee for AIDS, Drug, and Prostitution Prevention and Control"], unit: 7 },
+            { vi: "Đóng vai trò chủ động, nòng cốt", en: ["play a proactive and pivotal role"], unit: 7 },
+            { vi: "Lực lượng chức năng", en: ["task force"], unit: 7 },
+            { vi: "Đang làm nhiệm vụ", en: ["on duty"], unit: 7 },
+            { vi: "Giống nòi", en: ["lineage"], unit: 7 },
+            { vi: "Người nghiện ma túy", en: ["drug addict"], unit: 7 },
+            { vi: "Thiếu tướng", en: ["Brigadier General"], unit: 7 },
+            { vi: "Ma túy tổng hợp", en: ["synthetic drugs"], unit: 7 },
+            { vi: "Chiến công và thành tích đặc biệt", en: ["outstanding feats and special achievements"], unit: 7 },
+            { vi: "Biểu dương và khen ngợi", en: ["commend and praise"], unit: 7 },
+            { vi: "Được ủy quyền bởi", en: ["to be authorized by"], unit: 7 },
+            // Unit 8
+            { vi: "Bình đẳng giới", en: ["gender equality"], unit: 8 },
+            { vi: "Định kiến giới", en: ["gender bias"], unit: 8 },
+            { vi: "Phân biệt đối xử về giới", en: ["gender discrimination"], unit: 8 },
+            { vi: "Ủy ban Địa vị phụ nữ của Liên hợp quốc", en: ["United Nations Commission on the Status of Women"], unit: 8 },
+            { vi: "Khế ước xã hội", en: ["social contract"], unit: 8 },
+            { vi: "Sa mạc hóa", en: ["desertification"], unit: 8 },
+            { vi: "Đa dạng sinh học", en: ["biodiversity"], unit: 8 },
+            { vi: "Tác động qua lại", en: ["reciprocal impact"], unit: 8 },
+            { vi: "Công ước khung của LHQ về biến đổi khí hậu", en: ["United Nations Framework Convention on Climate Change"], unit: 8 },
+            { vi: "Nam giới làm chủ", en: ["male-dominated"], unit: 8 },
+            { vi: "Địa vị phụ nữ", en: ["women's status"], unit: 8 },
+            { vi: "Trao quyền cho phụ nữ", en: ["women's empowerment"], unit: 8 },
+            { vi: "Đại hội đồng LHQ", en: ["United Nations General Assembly"], unit: 8 },
+            { vi: "Nguyên tắc vàng", en: ["golden principle"], unit: 8 },
+            { vi: "Người kế nhiệm", en: ["successor"], unit: 8 }
+        ];
+
+        let selectedUnitMode = 'all';
+        let currentQuiz = [];
+        let currentIndex = 0;
+        let score = 0;
+        let historyLog = [];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function stripInitialThe(str) {
+            str = str.trim();
+            if (str.toLowerCase().startsWith("the ")) {
+                return str.substring(4).trim();
+            }
+            return str;
+        }
+
+        // Bắt đầu làm bài dựa trên Unit lựa chọn
+        function startQuizByUnit(unitChoice) {
+            selectedUnitMode = unitChoice;
+            let filteredVocab = [];
+
+            if (unitChoice === 'all') {
+                // Đề tổng hợp: Lấy ngẫu nhiên 40 câu từ tất cả các Unit
+                let shuffledAll = shuffleArray([...fullVocabulary]);
+                filteredVocab = shuffledAll.slice(0, 40);
+                document.getElementById('quiz-main-title').innerText = "Đề Tổng Hợp Ngẫu Nhiên";
+                document.getElementById('quiz-sub-title').innerText = "Bộ đề gồm 40 câu trích xuất ngẫu nhiên từ Unit 3 - 8";
+            } else {
+                // Lọc chính xác các từ thuộc Unit được chọn
+                filteredVocab = fullVocabulary.filter(item => item.unit === parseInt(unitChoice));
+                // Xáo trộn thứ tự các câu trong riêng Unit đó
+                filteredVocab = shuffleArray([...filteredVocab]);
+                document.getElementById('quiz-main-title').innerText = `Ôn Tập: Unit ${unitChoice}`;
+                document.getElementById('quiz-sub-title').innerText = `Kiểm tra toàn bộ từ vựng có trong bài Unit ${unitChoice}`;
+            }
+
+            currentQuiz = filteredVocab;
+            currentIndex = 0;
+            score = 0;
+            historyLog = [];
+
+            // Chuyển đổi màn hình giao diện
+            document.getElementById('menu-container').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            document.getElementById('summary-container').style.display = 'none';
+            document.getElementById('score-count').innerText = `Đúng: 0`;
+
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentIndex >= currentQuiz.length) {
+                showSummary();
+                return;
+            }
+
+            const current = currentQuiz[currentIndex];
+            document.getElementById('question-count').innerText = `Câu hỏi: ${currentIndex + 1}/${currentQuiz.length}`;
+            document.getElementById('question-unit').innerText = `Unit ${current.unit}`;
+            document.getElementById('question-text').innerText = current.vi;
+            
+            const inputField = document.getElementById('answer-input');
+            inputField.value = '';
+            inputField.disabled = false;
+            inputField.focus();
+
+            document.getElementById('submit-btn').style.display = 'block';
+            document.getElementById('next-btn').style.display = 'none';
+            
+            const resultMsg = document.getElementById('result-message');
+            resultMsg.style.display = 'none';
+            resultMsg.className = 'result-box';
+            resultMsg.innerHTML = '';
+
+            const progressPercent = (currentIndex / currentQuiz.length) * 100;
+            document.getElementById('progress').style.width = `${progressPercent}%`;
+        }
+
+        function checkAnswer() {
+            const userInput = document.getElementById('answer-input').value.trim();
+            if (!userInput) {
+                alert("Vui lòng nhập câu trả lời trước khi kiểm tra!");
+                return;
+            }
+
+            const current = currentQuiz[currentIndex];
+            let isCorrect = false;
+            let matchedTarget = "";
+            let caseMismatch = false;
+            let exactMatchFound = false;
+
+            const userStripped = stripInitialThe(userInput);
+
+            for (let target of current.en) {
+                let cleanTarget = target.trim();
+                let targetStripped = stripInitialThe(cleanTarget);
+                
+                if (userInput === cleanTarget || userStripped === targetStripped) {
+                    isCorrect = true;
+                    exactMatchFound = true;
+                    matchedTarget = cleanTarget;
+                    if (userInput !== cleanTarget && userStripped !== targetStripped) {
+                        caseMismatch = true;
+                    }
+                    break;
+                }
+                
+                if (userInput.toLowerCase() === cleanTarget.toLowerCase() || 
+                    userStripped.toLowerCase() === targetStripped.toLowerCase()) {
+                    isCorrect = true;
+                    matchedTarget = cleanTarget;
+                    caseMismatch = true;
+                }
+            }
+
+            if (!isCorrect) {
+                matchedTarget = current.en.join(" HOẶC ");
+            }
+
+            if (isCorrect) {
+                score++;
+                document.getElementById('score-count').innerText = `Đúng: ${score}`;
+            }
+
+            const resultMsg = document.getElementById('result-message');
+            resultMsg.style.display = 'block';
+
+            if (isCorrect) {
+                resultMsg.classList.add('result-success');
+                let htmlContent = `<strong>✓ Đúng rồi!</strong> Đáp án chuẩn: <code>${matchedTarget}</code>`;
+                
+                if (caseMismatch) {
+                    htmlContent += `<div class="reminder">⚠️ <strong>Lưu ý viết hoa:</strong> Bạn nên viết chính xác các ký tự hoa thường như sau: <code>${matchedTarget}</code></div>`;
+                }
+                resultMsg.innerHTML = htmlContent;
+            } else {
+                resultMsg.classList.add('result-danger');
+                resultMsg.innerHTML = `<strong>✕ Sai rồi!</strong><br>Đáp án đúng phải là: <code>${matchedTarget}</code>`;
+            }
+
+            historyLog.push({
+                vi: current.vi,
+                unit: current.unit,
+                user: userInput,
+                correct: isCorrect,
+                caseWarning: caseMismatch,
+                expected: current.en.join(" hoặc ")
+            });
+
+            document.getElementById('answer-input').disabled = true;
+            document.getElementById('submit-btn').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'block';
+            document.getElementById('next-btn').focus();
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            showQuestion();
+        }
+
+        function showSummary() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('summary-container').style.display = 'block';
+            document.getElementById('progress').style.width = '100%';
+            
+            document.getElementById('final-score').innerText = `${score} / ${currentQuiz.length}`;
+            
+            if (selectedUnitMode === 'all') {
+                document.getElementById('summary-sub-title').innerText = "Bạn đã hoàn thành bộ đề ngẫu nhiên 40 câu";
+            } else {
+                document.getElementById('summary-sub-title').innerText = `Bạn đã hoàn thành tất cả từ vựng của Unit ${selectedUnitMode}`;
+            }
+
+            const comment = document.getElementById('performance-comment');
+            const pct = (score / currentQuiz.length) * 100;
+            if (pct === 100) {
+                comment.innerText = "Tuyệt hảo! Đúng 100% không sai câu nào 🎉";
+                comment.style.color = "var(--success)";
+            } else if (pct >= 80) {
+                comment.innerText = "Rất tốt! Bạn nhớ bài cực kỳ chắc chắn 👍";
+                comment.style.color = "var(--secondary)";
+            } else if (pct >= 50) {
+                comment.innerText = "Khá tốt! Hãy rà soát thêm danh sách từ chưa thuộc.";
+                comment.style.color = "var(--warning)";
+            } else {
+                comment.innerText = "Cần ôn tập lại nhiều hơn để ghi nhớ sâu các thuật ngữ chuyên ngành.";
+                comment.style.color = "var(--danger)";
+            }
+
+            const listContainer = document.getElementById('details-list');
+            const titleHtml = listContainer.querySelector('h3').outerHTML;
+            listContainer.innerHTML = titleHtml;
+
+            historyLog.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'details-item';
+                itemDiv.style.borderLeft = `4px solid ${item.correct ? 'var(--success)' : 'var(--danger)'}`;
+                
+                let content = `<strong>Câu ${index + 1} (Unit ${item.unit}):</strong> ${item.vi}<br>`;
+                content += `↳ Bạn đã nhập: <span style="color: ${item.correct ? 'green' : 'red'}">${item.user || '(để trống)'}</span><br>`;
+                content += `↳ Đáp án chuẩn: <span style="color: green; font-weight: 600;">${item.expected}</span>`;
+                
+                if (item.caseWarning) {
+                    content += `<br><span style="color: #856404; font-size:12px;">⚠️ Lưu ý lỗi viết hoa / viết thường.</span>`;
+                }
+                
+                itemDiv.innerHTML = content;
+                listContainer.appendChild(itemDiv);
+            });
+        }
+
+        // Quay lại Menu Trang chủ
+        function backToMenu() {
+            document.getElementById('menu-container').style.display = 'block';
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('summary-container').style.display = 'none';
+        }
+
+        // Làm lại chính bài/Unit vừa làm xong
+        function retryCurrentUnit() {
+            startQuizByUnit(selectedUnitMode);
+        }
+
+        document.getElementById('answer-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (document.getElementById('submit-btn').style.display !== 'none') {
+                    checkAnswer();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
