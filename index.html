@@ -289,7 +289,7 @@
         
         <div style="display: flex; gap: 10px; margin-top: 15px;">
             <button class="btn" style="background-color: var(--primary);" onclick="backToMenu()">Về Trang Chủ Chọn Unit</button>
-            <button class="btn" onclick="retryCurrentUnit()">Làm Lại Lượt Mới</button>
+            <button class="btn" onclick="retryCurrentUnit()">Làm lại</button>
         </div>
         
         <div class="details-list" id="details-list">
@@ -423,7 +423,7 @@
                 // Xáo trộn thứ tự các câu trong riêng Unit đó
                 filteredVocab = shuffleArray([...filteredVocab]);
                 document.getElementById('quiz-main-title').innerText = `Ôn Tập: Unit ${unitChoice}`;
-                document.getElementById('quiz-sub-title').innerText = `Kiểm tra toàn bộ từ vựng có trong bài Unit ${unitChoice}`;
+                document.getElementById('quiz-sub-title').innerText = `co len ae ${unitChoice}`;
             }
 
             currentQuiz = filteredVocab;
@@ -519,7 +519,7 @@
 
             if (isCorrect) {
                 resultMsg.classList.add('result-success');
-                let htmlContent = `<strong>✓ Đúng rồi!</strong> Đáp án chuẩn: <code>${matchedTarget}</code>`;
+                let htmlContent = `<strong>✓ Đúng òi</strong> Đáp án chuẩn: <code>${matchedTarget}</code>`;
                 
                 if (caseMismatch) {
                     htmlContent += `<div class="reminder">⚠️ <strong>Lưu ý viết hoa:</strong> Bạn nên viết chính xác các ký tự hoa thường như sau: <code>${matchedTarget}</code></div>`;
@@ -527,7 +527,7 @@
                 resultMsg.innerHTML = htmlContent;
             } else {
                 resultMsg.classList.add('result-danger');
-                resultMsg.innerHTML = `<strong>✕ Sai rồi!</strong><br>Đáp án đúng phải là: <code>${matchedTarget}</code>`;
+                resultMsg.innerHTML = `<strong>✕ Sai òi</strong><br>Đáp án đúng phải là: <code>${matchedTarget}</code>`;
             }
 
             historyLog.push({
