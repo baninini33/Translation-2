@@ -247,7 +247,6 @@
             <button class="menu-btn" onclick="startQuizByUnit(5)">Unit 5</button>
             <button class="menu-btn" onclick="startQuizByUnit(6)">Unit 6</button>
             <button class="menu-btn" onclick="startQuizByUnit(7)">Unit 7</button>
-            <button class="menu-btn" onclick="startQuizByUnit(8)">Unit 8</button>
             <button class="menu-btn all-units" onclick="startQuizByUnit('all')">Random 40 câu</button>
         </div>
     </div>
@@ -366,22 +365,6 @@
             { vi: "Chiến công và thành tích đặc biệt", en: ["outstanding feats and special achievements"], unit: 7 },
             { vi: "Biểu dương và khen ngợi", en: ["commend and praise"], unit: 7 },
             { vi: "Được ủy quyền bởi", en: ["to be authorized by"], unit: 7 },
-            // Unit 8
-            { vi: "Bình đẳng giới", en: ["gender equality"], unit: 8 },
-            { vi: "Định kiến giới", en: ["gender bias"], unit: 8 },
-            { vi: "Phân biệt đối xử về giới", en: ["gender discrimination"], unit: 8 },
-            { vi: "Ủy ban Địa vị phụ nữ của Liên hợp quốc", en: ["United Nations Commission on the Status of Women"], unit: 8 },
-            { vi: "Khế ước xã hội", en: ["social contract"], unit: 8 },
-            { vi: "Sa mạc hóa", en: ["desertification"], unit: 8 },
-            { vi: "Đa dạng sinh học", en: ["biodiversity"], unit: 8 },
-            { vi: "Tác động qua lại", en: ["reciprocal impact"], unit: 8 },
-            { vi: "Công ước khung của LHQ về biến đổi khí hậu", en: ["United Nations Framework Convention on Climate Change"], unit: 8 },
-            { vi: "Nam giới làm chủ", en: ["male-dominated"], unit: 8 },
-            { vi: "Địa vị phụ nữ", en: ["women's status"], unit: 8 },
-            { vi: "Trao quyền cho phụ nữ", en: ["women's empowerment"], unit: 8 },
-            { vi: "Đại hội đồng LHQ", en: ["United Nations General Assembly"], unit: 8 },
-            { vi: "Nguyên tắc vàng", en: ["golden principle"], unit: 8 },
-            { vi: "Người kế nhiệm", en: ["successor"], unit: 8 }
         ];
 
         let selectedUnitMode = 'all';
@@ -412,18 +395,18 @@
             let filteredVocab = [];
 
             if (unitChoice === 'all') {
-                // Đề tổng hợp: Lấy ngẫu nhiên 40 câu từ tất cả các Unit
+                // Đề tổng hợp: Lấy ngẫu nhiên 30 câu từ tất cả các Unit
                 let shuffledAll = shuffleArray([...fullVocabulary]);
                 filteredVocab = shuffledAll.slice(0, 40);
-                document.getElementById('quiz-main-title').innerText = "Đề Tổng Hợp Ngẫu Nhiên";
-                document.getElementById('quiz-sub-title').innerText = "Bộ đề gồm 40 câu trích xuất ngẫu nhiên từ Unit 3 - 8";
+                document.getElementById('quiz-main-title').innerText = "Random 30 câu";
+                document.getElementById('quiz-sub-title').innerText = "Random 30 câu";
             } else {
                 // Lọc chính xác các từ thuộc Unit được chọn
                 filteredVocab = fullVocabulary.filter(item => item.unit === parseInt(unitChoice));
                 // Xáo trộn thứ tự các câu trong riêng Unit đó
                 filteredVocab = shuffleArray([...filteredVocab]);
                 document.getElementById('quiz-main-title').innerText = `Ôn Tập: Unit ${unitChoice}`;
-                document.getElementById('quiz-sub-title').innerText = `co len ae ${unitChoice}`;
+                document.getElementById('quiz-sub-title').innerText = `co len ae`;
             }
 
             currentQuiz = filteredVocab;
@@ -558,7 +541,7 @@
             document.getElementById('final-score').innerText = `${score} / ${currentQuiz.length}`;
             
             if (selectedUnitMode === 'all') {
-                document.getElementById('summary-sub-title').innerText = "Bạn đã hoàn thành bộ đề ngẫu nhiên 40 câu";
+                document.getElementById('summary-sub-title').innerText = "Bạn đã hoàn thành bộ đề random 30 câu hihi";
             } else {
                 document.getElementById('summary-sub-title').innerText = `Bạn đã hoàn thành tất cả từ vựng của Unit ${selectedUnitMode}`;
             }
@@ -566,16 +549,16 @@
             const comment = document.getElementById('performance-comment');
             const pct = (score / currentQuiz.length) * 100;
             if (pct === 100) {
-                comment.innerText = "Tuyệt hảo! Đúng 100% không sai câu nào 🎉";
+                comment.innerText = "tuyet voi k sai cau nao 🎉";
                 comment.style.color = "var(--success)";
             } else if (pct >= 80) {
-                comment.innerText = "Rất tốt! Bạn nhớ bài cực kỳ chắc chắn 👍";
+                comment.innerText = "veri gud 👍";
                 comment.style.color = "var(--secondary)";
             } else if (pct >= 50) {
-                comment.innerText = "Khá tốt! Hãy rà soát thêm danh sách từ chưa thuộc.";
+                comment.innerText = "cũng đc";
                 comment.style.color = "var(--warning)";
             } else {
-                comment.innerText = "Cần ôn tập lại nhiều hơn để ghi nhớ sâu các thuật ngữ chuyên ngành.";
+                comment.innerText = "hoc tiep di";
                 comment.style.color = "var(--danger)";
             }
 
