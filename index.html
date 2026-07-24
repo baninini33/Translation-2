@@ -280,7 +280,7 @@
 
     <!-- MÀN HÌNH TỔNG KẾT KẾT QUẢ -->
     <div class="container summary" id="summary-container">
-        <h2>Kết Quả Ôn Tập</h2>
+        <h2>Result</h2>
         <div class="subtitle" id="summary-sub-title">Bạn đã hoàn thành bài ôn tập</div>
         <div class="score-display" id="final-score">0 / 0</div>
         <div id="performance-comment" style="font-weight: 600; font-size: 18px; margin-bottom: 20px;"></div>
@@ -298,19 +298,19 @@
     <script>
         const fullVocabulary = [
             // Unit 3
-            { vi: "Đại hội đồng Liên hợp quốc", en: ["United Nations General Assembly"], unit: 3 },
+            { vi: "Đại hội đồng Liên hợp quốc", en: ["United Nations General Assembly", "UN General Assembly"], unit: 3 },
             { vi: "Phiên họp khẩn cấp", en: ["Emergency Special session"], unit: 3 },
-            { vi: "Chủ tịch Đại hội đồng LHQ", en: ["President of the United Nations General Assembly"], unit: 3 },
-            { vi: "Tổng thư ký LHQ", en: ["United Nations Secretary General"], unit: 3 },
+            { vi: "Chủ tịch Đại hội đồng LHQ", en: ["President of the United Nations General Assembly", "President of the UN General Assembly"], unit: 3 },
+            { vi: "Tổng thư ký LHQ", en: ["United Nations Secretary General", "UN Secretary General"], unit: 3 },
             { vi: "Quỹ ứng phó khẩn cấp", en: ["Emergency Response Fund"], unit: 3 },
-            { vi: "Điều phối viên khủng hoảng LHQ", en: ["United Nations Crisis Coordinator"], unit: 3 },
+            { vi: "Điều phối viên khủng hoảng LHQ", en: ["United Nations Crisis Coordinator", "UN Crisis Coordinator"], unit: 3 },
             { vi: "Luật nhân đạo quốc tế", en: ["international humanitarian law"], unit: 3 },
             { vi: "Bày tỏ quan ngại", en: ["express concern"], unit: 3 },
             { vi: "Sử dụng vũ lực", en: ["use of force"], unit: 3 },
             { vi: "Việc sơ tán", en: ["evacuation"], unit: 3 },
             // Unit 4
             { vi: "Loại hình nghệ thuật truyền thống", en: ["Traditional art form"], unit: 4 },
-            { vi: "Hình thức giải trí hiện đại", en: ["Modern entertainment form"], unit: 4 },
+            { vi: "Hình thức giải trí hiện đại", en: ["Modern entertainment form", "Modern form of entertainment"], unit: 4 },
             { vi: "Bộ môn nghệ thuật dân tộc", en: ["Ethnic art form"], unit: 4 },
             { vi: "Triển lãm thế giới EXPO 2025 Osaka", en: ["The EXPO 2025 Osaka World Exhibition"], unit: 4 },
             { vi: "Nhà Triển lãm Việt Nam", en: ["the Vietnam Pavilion"], unit: 4 },
@@ -323,10 +323,10 @@
             { vi: "Giá trị cốt lõi", en: ["core value"], unit: 4 },
             // Unit 5
             { vi: "Bệnh viêm gan cấp tính", en: ["acute hepatitis"], unit: 5 },
-            { vi: "Bệnh viện chuyên khoa Nhi", en: ["pediatric hospitals"], unit: 5 },
-            { vi: "Tác nhân gây nhiễm", en: ["infectious agent", "causative agent"], unit: 5 },
-            { vi: "Sở Y tế TP.HCM", en: ["the Department of Health of Ho Chi Minh City"], unit: 5 },
-            { vi: "Hội chẩn", en: ["consult (with)"], unit: 5 },
+            { vi: "Bệnh viện chuyên khoa Nhi", en: ["pediatric hospitals", "pediatric hospital"], unit: 5 },
+            { vi: "Tác nhân gây nhiễm", en: ["infectious agent", "causative agent", "infectious agents", "causative agents"], unit: 5 },
+            { vi: "Sở Y tế TP.HCM", en: ["the Department of Health of Ho Chi Minh City", "Ho Chi Minh City Department of Health"], unit: 5 },
+            { vi: "Hội chẩn", en: ["consult (with)", "consult"], unit: 5 },
             { vi: "Bệnh viện Bệnh nhiệt đới TP.HCM", en: ["the Ho Chi Minh City Hospital for Tropical Diseases"], unit: 5 },
             { vi: "Đơn vị Nghiên cứu Lâm sàng ĐH Oxford", en: ["the Oxford University Clinical Research Unit"], unit: 5 },
             { vi: "Cục Y tế dự phòng", en: ["Department of Preventive Medicine"], unit: 5 },
@@ -346,8 +346,8 @@
             { vi: "Điều phối viên quốc tế cao cấp về mạng lưới chính phủ", en: ["International Senior Liaison of Government Networks"], unit: 6 },
             { vi: "Nghiệm thu", en: ["acceptance"], unit: 6 },
             { vi: "Giải pháp Hệ sinh thái an toàn cháy và tính mạng", en: ["Fire and life safety ecosystem"], unit: 6 },
-            { vi: "Nhà thầu thi công", en: ["contractors"], unit: 6 },
-            { vi: "Đơn vị vận hành", en: ["building operators"], unit: 6 },
+            { vi: "Nhà thầu thi công", en: ["contractors", "contractor"], unit: 6 },
+            { vi: "Đơn vị vận hành", en: ["building operators", "building operator"], unit: 6 },
             { vi: "Các nội dung cùng quan tâm", en: ["areas of mutual interest"], unit: 6 },
         ];
 
@@ -438,7 +438,7 @@
         function checkAnswer() {
             const userInput = document.getElementById('answer-input').value.trim();
             if (!userInput) {
-                alert("Vui lòng nhập câu trả lời trước khi kiểm tra!");
+                alert("s ch nhập đã nộp r >:(");
                 return;
             }
 
